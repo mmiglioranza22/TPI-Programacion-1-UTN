@@ -19,28 +19,59 @@ def cargar_paises():
 					if fila[0] == "nombre":
 						continue
 					else:
-						lista.append({"PAIS": fila[0], "POBLACION": int(fila[1]), "SUPERFICIE": int(fila[2]), "CONTINENTE": fila[3]})
+						lista.append({"NOMBRE": fila[0], "POBLACION": int(fila[1]), "SUPERFICIE": int(fila[2]), "CONTINENTE": fila[3]})
+			return lista
+		else:
+			print("\nNo hay archivo csv en el directorio de la aplicación")
+			print("\nAgregue un archivo con nombre 'dataset_base.csv' con el formato nombre,poblacion,superficie,continente")
+			print("Inicializando lista de países vacía...")
 			return lista
 	except Exception as e:
 		print("Error en carga de archivo. Verifique que el formato del archivo CSV con países sea correcto")
 
-
-
 def guardar_cambios(archivo_paises):
-	with open("dataset_bassse.csv", "w") as archivo:
+	with open("dataset_base.csv", "w") as archivo:
 		archivo.write("nombre,poblacion,superficie,continente\n")
 		for pais in archivo_paises:
-			archivo.write(f"{pais["PAIS"]},{pais["POBLACION"]},{pais["SUPERFICIE"]},{pais["CONTINENTE"]}\n")
+			archivo.write(f"{pais["NOMBRE"]},{pais["POBLACION"]},{pais["SUPERFICIE"]},{pais["CONTINENTE"]}\n")
 
+def validar_numero(cadena):
+	return cadena.isdigit() and int(cadena).is_integer() and int(cadena) >= 0
 
-lista = cargar_paises()
+def continente_valido(continente):
+	return continente == "América" or continente == "Asia" or continente == "Europa" or continente == "África" or continente == "Oceanía"
 
-print(lista)
+def agregar_pais(lista_paises):
+	pais_repetido = False
+	nombre = input("Por favor ingrese el nombre del país: ").strip()
+	while nombre == "":
+		nombre = input("Opción inválida. Por favor indíque un país: ").strip()
 
-# guardar_cambios(lista)
+	poblacion = input("Por favor ingrese la población del país: ").strip()
+	while poblacion == "" or (not validar_numero(poblacion)):
+		poblacion = input("Opción inválida. Por favor indíque número entero positivo: ").strip()
 
-def agregar_pais(pais):
-	pass
+	superficie = input("Por favor ingrese la superficie del país: ").strip()
+	while superficie == "" or (not validar_numero(superficie)):
+		superficie = input("Opción inválida. Por favor indíque un número entero positivo: ").strip()
+
+	continente = input("Por favor ingrese el continente del país: ").strip()
+	while continente == "" or (not continente_valido(continente)):
+		continente = input("Opción inválida. Por favor indíque un continente (América, Asia, África, Oceanía, Europa): ").strip()
+
+	# verificar que el país no exista ya en el archivo
+	for nombre_pais in lista_paises:
+		if nombre_pais["NOMBRE"].lower() == nombre.lower():
+			print("\nYa existe un registro para ese país")
+			pais_repetido = True
+			break
+	
+	if not pais_repetido:
+		nuevo_pais = {"NOMBRE": nombre, "POBLACION": int(poblacion), "SUPERFICIE": int(superficie), "CONTINENTE": continente}
+		lista_paises.append(nuevo_pais)
+		print(f"\n'{nombre}' fue ingresado como nuevo país.")
+		guardar_cambios(lista_paises)
+		print("\nCambios persistidos.")
 
 def actualizar_pais(pais):
 	pass
@@ -72,14 +103,101 @@ def mostrar_estadisticas():
 	# Cantidad de países por continente 
 	pass
 
+def opcion_valida(opcion):
+	return opcion == "0" or opcion == "1" or opcion == "2" or opcion == "3" or opcion == "4" or opcion == "5" or opcion == "6" or opcion == "7" or opcion == "8" or opcion == "9" or opcion == "10"
+
 def mostrar_menu():
-    print("\n--- MENÚ DE OPCIONES ---")
-    print("1. Buscar un país por nombre")
-    print("2. Filtrar países por continente")
-    print("3. Filtrar países por rango de población")
-    print("4. Filtrar países por rango de superficie")
-    print("5. Ordenar países por nombre")
-    print("6. Ordenar países por población")
-    print("7. Ordenar países por superficie")
-    print("8. Mostrar estadísticas")
-    print("0. Salir")
+	print("\n--- MENÚ DE OPCIONES ---")
+	print("1. Agregar un país")
+	print("2. Actualizar datos de un país (pobalción y superficie)")
+	print("3. Buscar un país por nombre")
+	print("4. Filtrar países por continente")
+	print("5. Filtrar países por rango de población")
+	print("6. Filtrar países por rango de superficie")
+	print("7. Ordenar países por nombre")
+	print("8. Ordenar países por población")
+	print("9. Ordenar países por superficie")
+	print("10. Mostrar estadísticas")
+	print("0. Salir")
+	
+
+
+print("===========================================")
+print("Bienvenido a la aplicación de países.")
+print("===========================================")
+
+
+lista_paises = cargar_paises()
+
+while True: 
+	# archivo_csv_existente = verificar_archivo_catalogo()
+	# if archivo_csv_existente:
+	# 	catalogo = generar_lista_catalogo()
+
+	mostrar_menu()
+		
+	opcion = input("Por favor, elija una de las opciones sugeridas: ").strip()
+	print("")
+
+	while not opcion_valida(opcion):
+		print("La opción ingresada no es válida.")
+		opcion = input("Por favor, elija una de las opciones sugeridas: ").strip()
+		print("\n===========================================\n")
+		
+	match opcion:
+		case "1":
+			agregar_pais(lista_paises)
+			# guardar_cambios(paises)
+			print("\n===========================================")
+			pass
+			
+		case "2":
+			
+
+			print("\n===========================================")
+			pass
+
+		case "3":
+		
+		
+			print("\n===========================================")
+			pass
+		
+		case "4":
+
+
+			print("\n===========================================")
+			pass
+		
+		case "5":
+				
+			print("\n===========================================")
+			pass
+
+		case "6":
+
+			print("\n===========================================")
+			pass
+
+		case "7":
+
+			print("\n===========================================")	
+			pass
+
+		case "8":
+
+			print("\n===========================================")	
+			pass
+
+		case "9":
+
+			print("\n===========================================")	
+			pass
+
+		case "10":
+
+			print("\n===========================================")	
+			pass
+
+		case "0":
+			break
