@@ -70,8 +70,6 @@ def agregar_pais(lista_paises):
 		nuevo_pais = {"NOMBRE": nombre, "POBLACION": int(poblacion), "SUPERFICIE": int(superficie), "CONTINENTE": continente}
 		lista_paises.append(nuevo_pais)
 		print(f"\n'{nombre}' fue ingresado como nuevo país.")
-		guardar_cambios(lista_paises)
-		print("\nCambios persistidos.")
 
 def actualizar_pais(pais):
 	pass
@@ -130,10 +128,6 @@ print("===========================================")
 lista_paises = cargar_paises()
 
 while True: 
-	# archivo_csv_existente = verificar_archivo_catalogo()
-	# if archivo_csv_existente:
-	# 	catalogo = generar_lista_catalogo()
-
 	mostrar_menu()
 		
 	opcion = input("Por favor, elija una de las opciones sugeridas: ").strip()
@@ -147,7 +141,8 @@ while True:
 	match opcion:
 		case "1":
 			agregar_pais(lista_paises)
-			# guardar_cambios(paises)
+			guardar_cambios(lista_paises)
+			print("\nCambios persistidos.")
 			print("\n===========================================")
 			pass
 			
