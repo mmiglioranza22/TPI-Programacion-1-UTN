@@ -18,3 +18,15 @@ def cargar_paises():
 
 
 
+def guardar_cambios(archivo_paises):
+	with open("dataset_bassse.csv", "w") as archivo:
+		archivo.write("nombre,poblacion,superficie,continente\n")
+		for pais in archivo_paises:
+			archivo.write(f"{pais["PAIS"]},{pais["POBLACION"]},{pais["SUPERFICIE"]},{pais["CONTINENTE"]}\n")
+
+
+# lista = cargar_paises()
+
+# print(lista)
+
+# guardar_cambios(lista)
