@@ -7,7 +7,6 @@ def verificar_archivo_existente():
 	else:
 		return False
 
-
 def cargar_paises():
 	lista = []
 	try:
@@ -95,7 +94,14 @@ def actualizar_pais(lista_paises):
 	if not encontrado:
 		print("El país no se encuentra en el archivo")
 
-#coincidencia parcial o exacta (regex)
+def mostrar_paises(lista_paises):
+	for pais in lista_paises:
+		print(f"Nombre: {pais["NOMBRE"]}")
+		print(f"Población: {pais["POBLACION"]}")
+		print(f"Superficie: {pais["SUPERFICIE"]}")
+		print(f"Continente: {pais["CONTINENTE"]}")
+		print("\n")
+
 def buscar_pais(lista_paises):
 	nombre = input("Ingrese el país que desee buscar: ")
 	while nombre == "" or len(nombre) < 4:
@@ -108,12 +114,21 @@ def buscar_pais(lista_paises):
 			print(f"Superficie: {pais["SUPERFICIE"]}")
 			print(f"Continente: {pais["CONTINENTE"]}")
 
-def filtrar_paises():
-	# mostrar opciones: 
-	# filtrar por continente
-	# filtrar por rango de población
-	# filtrar por rango de superficie
-	pass
+def filtrar_continente(lista_paises):
+	continente = input("Ingrese el continente que desee buscar: ")
+	while continente == "" or len(continente) < 4:
+		continente = input("Opción inválida. Ingreso al menos 4 caracteres: ").strip()	
+
+	paises = []
+	for pais in lista_paises:
+		if continente.lower() in pais["CONTINENTE"].lower():
+			paises.append(pais)
+	
+	if len(paises):
+		print(f"Hay {len(paises)} encontrados:")
+		mostrar_paises(paises)
+	else:
+		print("No se encontraron paises")
 
 
 def ordenar_paises():
@@ -184,8 +199,7 @@ while True:
 			pass
 		
 		case "4":
-
-
+			filtrar_continente(lista_paises)
 			print("\n===========================================")
 			pass
 		
