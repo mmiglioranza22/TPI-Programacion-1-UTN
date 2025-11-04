@@ -71,9 +71,29 @@ def agregar_pais(lista_paises):
 		lista_paises.append(nuevo_pais)
 		print(f"\n'{nombre}' fue ingresado como nuevo país.")
 
-def actualizar_pais(pais):
-	pass
+def actualizar_pais(lista_paises):
+	nombre = input("Por favor ingrese el nombre del país: ").strip()
+	while nombre == "":
+		nombre = input("Opción inválida. Por favor indíque un país: ").strip()	
+	
+	nueva_poblacion = input("Ingrese la nueva población: ")
+	while nueva_poblacion == "" or (not validar_numero(nueva_poblacion)):
+		nueva_poblacion = input("Opción inválida. Por favor indíque número entero positivo: ").strip()
 
+	nueva_superficie = input("Ingrese la nueva superficie: ")
+	while nueva_superficie == "" or (not validar_numero(nueva_superficie)):
+		nueva_superficie = input("Opción inválida. Por favor indíque un número entero positivo: ").strip()
+
+	encontrado = False
+	for pais in lista_paises:
+		if pais["NOMBRE"].lower() == nombre.lower():
+			encontrado = True
+			pais["POBLACION"] = int(nueva_poblacion)
+			pais["SUPERFICIE"] = int(nueva_superficie)
+			print(f"\n'{nombre}' fue actualizado.")
+
+	if not encontrado:
+		print("El país no se encuentra en el archivo")
 
 #coincidencia parcial o exacta (regex)
 def buscar_pais(pais):
@@ -142,13 +162,12 @@ while True:
 		case "1":
 			agregar_pais(lista_paises)
 			guardar_cambios(lista_paises)
-			print("\nCambios persistidos.")
 			print("\n===========================================")
 			pass
 			
 		case "2":
-			
-
+			actualizar_pais(lista_paises)	
+			guardar_cambios(lista_paises)
 			print("\n===========================================")
 			pass
 
