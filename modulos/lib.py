@@ -96,8 +96,17 @@ def actualizar_pais(lista_paises):
 		print("El país no se encuentra en el archivo")
 
 #coincidencia parcial o exacta (regex)
-def buscar_pais(pais):
-	pass
+def buscar_pais(lista_paises):
+	nombre = input("Ingrese el país que desee buscar: ")
+	while nombre == "" or len(nombre) < 4:
+		nombre = input("Opción inválida. Ingreso al menos 4 caracteres: ").strip()	
+
+	for pais in lista_paises:
+		if nombre.lower() in pais["NOMBRE"].lower():
+			print(f"Datos sobre {pais["NOMBRE"]}")
+			print(f"Población: {pais["POBLACION"]}")
+			print(f"Superficie: {pais["SUPERFICIE"]}")
+			print(f"Continente: {pais["CONTINENTE"]}")
 
 def filtrar_paises():
 	# mostrar opciones: 
@@ -127,7 +136,7 @@ def opcion_valida(opcion):
 def mostrar_menu():
 	print("\n--- MENÚ DE OPCIONES ---")
 	print("1. Agregar un país")
-	print("2. Actualizar datos de un país (pobalción y superficie)")
+	print("2. Actualizar datos de un país (población y superficie)")
 	print("3. Buscar un país por nombre")
 	print("4. Filtrar países por continente")
 	print("5. Filtrar países por rango de población")
@@ -138,8 +147,6 @@ def mostrar_menu():
 	print("10. Mostrar estadísticas")
 	print("0. Salir")
 	
-
-
 print("===========================================")
 print("Bienvenido a la aplicación de países.")
 print("===========================================")
@@ -172,8 +179,7 @@ while True:
 			pass
 
 		case "3":
-		
-		
+			buscar_pais(lista_paises)
 			print("\n===========================================")
 			pass
 		
