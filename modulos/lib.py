@@ -1,4 +1,5 @@
 import csv, os
+from operator import itemgetter
 
 def verificar_archivo_existente():
 	file_path = "dataset_base.csv"
@@ -39,6 +40,9 @@ def validar_numero(cadena):
 
 def continente_valido(continente):
 	return continente == "América" or continente == "Asia" or continente == "Europa" or continente == "África" or continente == "Oceanía"
+
+def criterio_orden_valido(criterio):
+	return criterio == "NOMBRE" or criterio == "POBLACION" or criterio == "SUPERFICIE"
 
 def agregar_pais(lista_paises):
 	pais_repetido = False
@@ -125,18 +129,45 @@ def filtrar_continente(lista_paises):
 			paises.append(pais)
 	
 	if len(paises):
-		print(f"Hay {len(paises)} encontrados:")
+		print(f"\nHay {len(paises)} encontrados:")
 		mostrar_paises(paises)
 	else:
 		print("No se encontraron paises")
 
 
-def ordenar_paises():
-	# mostrar opciones: orden ascendente
-	# nombre
-	# poblacion
-	# superficie
-	pass
+def filtrar_por_rango(lista_paises, criterio):
+	minimo = input("Ingrese el limite mínimo: ")
+	while minimo == "" or (not validar_numero(minimo)):
+		minimo = input("Opción inválida. Ingreso un numero entero válido: ").strip()	
+
+	maximo = input("Ingrese el límite máximo: ")
+	while maximo == "" or (not validar_numero(maximo)) or maximo < minimo:
+		maximo = input("Opción inválida. Ingreso un numero entero válido y mayor al minimo: ").strip()	
+
+	paises = []
+	for pais in lista_paises:
+		if int(minimo) <= pais[criterio] <= int(maximo):
+			paises.append(pais)
+
+	if len(paises):
+		print(f"\nHay {len(paises)} encontrados:")
+		mostrar_paises(paises)
+	else:
+		print("No se encontraron paises")	
+
+
+def ordenar_paises(lista_paises, criterio):
+	sentido = input("Por favor ingrese el sentido del ordenamiento (ASCENDENTE, DESCENDENTE): ").strip().upper()
+	while sentido == "" or not (sentido == "ASCENDENTE" or sentido == "DESCENDENTE"):
+		sentido = input("Opción inválida. Por favor indíque una opción válida (ASCENDENTE, DESCENDENTE): ").strip().upper()
+
+	descendente = False
+	if sentido == "DESCENDENTE":
+		descendente = True
+		
+	lista_ordenada = sorted(lista_paises, key=itemgetter(criterio), reverse=descendente)
+	mostrar_paises(lista_ordenada)
+
 
 def mostrar_estadisticas():
 	# País con mayor y menor población
@@ -204,27 +235,27 @@ while True:
 			pass
 		
 		case "5":
-				
+			filtrar_por_rango(lista_paises, "POBLACION")	
 			print("\n===========================================")
 			pass
 
 		case "6":
-
+			filtrar_por_rango(lista_paises, "SUPERFICIE")	
 			print("\n===========================================")
 			pass
 
 		case "7":
-
+			ordenar_paises(lista_paises, "NOMBRE")
 			print("\n===========================================")	
 			pass
 
 		case "8":
-
+			ordenar_paises(lista_paises, "POBLACION")
 			print("\n===========================================")	
 			pass
 
 		case "9":
-
+			ordenar_paises(lista_paises, "SUPERFICIE")
 			print("\n===========================================")	
 			pass
 
