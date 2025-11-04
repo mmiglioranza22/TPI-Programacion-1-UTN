@@ -2,6 +2,7 @@ import csv, os, math
 from operator import itemgetter
 from statistics import mean
 
+# Se verifica si hay un archivo csv
 def verificar_archivo_existente():
 	file_path = "dataset_base.csv"
 	if os.path.isfile(file_path):
@@ -24,7 +25,7 @@ def cargar_paises():
 			return lista
 		else:
 			print("\nNo hay archivo csv en el directorio de la aplicación")
-			print("\nAgregue un archivo con nombre 'dataset_base.csv' con el formato nombre,poblacion,superficie,continente")
+			print("\nAgregue un archivo con nombre 'dataset_base.csv' con el formato 'nombre,poblacion,superficie,continente' y una linea vacía al final del mismo")
 			print("Inicializando lista de países vacía...")
 			return lista
 	except Exception as e:
@@ -47,6 +48,7 @@ def criterio_orden_valido(criterio):
 
 def agregar_pais(lista_paises):
 	pais_repetido = False
+	# Se validan los inputs
 	nombre = input("Por favor ingrese el nombre del país: ").strip()
 	while nombre == "":
 		nombre = input("Opción inválida. Por favor indíque un país: ").strip()
@@ -76,6 +78,7 @@ def agregar_pais(lista_paises):
 		print(f"\n'{nombre}' fue ingresado como nuevo país.")
 
 def actualizar_pais(lista_paises):
+	# Se validan los inputs
 	nombre = input("Por favor ingrese el nombre del país: ").strip()
 	while nombre == "":
 		nombre = input("Opción inválida. Por favor indíque un país: ").strip()	
@@ -107,6 +110,7 @@ def mostrar_paises(lista_paises):
 		print(f"Continente: {pais["CONTINENTE"]}")
 		print("\n")
 
+# Se busca un país por match exacto o parcial, para el cual se piden al menos 4 caracteres, que es lo mínimo para poder distinguir entre paises
 def buscar_pais(lista_paises):
 	nombre = input("Ingrese el país que desee buscar: ")
 	while nombre == "" or len(nombre) < 4:
@@ -119,6 +123,7 @@ def buscar_pais(lista_paises):
 			print(f"Superficie: {pais["SUPERFICIE"]}")
 			print(f"Continente: {pais["CONTINENTE"]}")
 
+# Se filtra con el mismo critero para la búsqueda de paises (match exacto o parcial de 4 caracteres)
 def filtrar_continente(lista_paises):
 	continente = input("Ingrese el continente que desee buscar: ")
 	while continente == "" or len(continente) < 4:
@@ -137,6 +142,7 @@ def filtrar_continente(lista_paises):
 
 
 def filtrar_por_rango(lista_paises, criterio):
+	# Validar los inputs
 	minimo = input("Ingrese el limite mínimo: ")
 	while minimo == "" or (not validar_numero(minimo)):
 		minimo = input("Opción inválida. Ingreso un numero entero válido: ").strip()	
@@ -146,6 +152,7 @@ def filtrar_por_rango(lista_paises, criterio):
 		maximo = input("Opción inválida. Ingreso un numero entero válido y mayor al minimo: ").strip()	
 
 	paises = []
+	# Filtrar dentro del rango (min max inclusives)
 	for pais in lista_paises:
 		if int(minimo) <= pais[criterio] <= int(maximo):
 			paises.append(pais)
@@ -166,6 +173,7 @@ def ordenar_paises(lista_paises, criterio):
 	if sentido == "DESCENDENTE":
 		descendente = True
 
+# sorted ordena la lista de paises en base a la key que se provee a la función itemgetter, que la busca dentro de cada diccionario de la lista
 	lista_ordenada = sorted(lista_paises, key=itemgetter(criterio), reverse=descendente)
 	mostrar_paises(lista_ordenada)
 
@@ -232,7 +240,6 @@ lista_paises = cargar_paises()
 
 while True: 
 	mostrar_menu()
-		
 	opcion = input("Por favor, elija una de las opciones sugeridas: ").strip()
 	print("")
 
@@ -246,53 +253,43 @@ while True:
 			agregar_pais(lista_paises)
 			guardar_cambios(lista_paises)
 			print("\n===========================================")
-			pass
 			
 		case "2":
 			actualizar_pais(lista_paises)	
 			guardar_cambios(lista_paises)
 			print("\n===========================================")
-			pass
 
 		case "3":
 			buscar_pais(lista_paises)
 			print("\n===========================================")
-			pass
 		
 		case "4":
 			filtrar_continente(lista_paises)
 			print("\n===========================================")
-			pass
 		
 		case "5":
 			filtrar_por_rango(lista_paises, "POBLACION")	
 			print("\n===========================================")
-			pass
 
 		case "6":
 			filtrar_por_rango(lista_paises, "SUPERFICIE")	
 			print("\n===========================================")
-			pass
 
 		case "7":
 			ordenar_paises(lista_paises, "NOMBRE")
-			print("\n===========================================")	
-			pass
+			print("\n===========================================")
 
 		case "8":
 			ordenar_paises(lista_paises, "POBLACION")
-			print("\n===========================================")	
-			pass
+			print("\n===========================================")
 
 		case "9":
 			ordenar_paises(lista_paises, "SUPERFICIE")
-			print("\n===========================================")	
-			pass
+			print("\n===========================================")
 
 		case "10":
 			mostrar_estadisticas(lista_paises)
-			print("\n===========================================")	
-			pass
+			print("\n===========================================")
 
 		case "0":
 			break
