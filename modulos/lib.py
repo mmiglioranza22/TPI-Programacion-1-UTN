@@ -199,7 +199,11 @@ def mostrar_estadisticas(lista_paises):
 	print(f"País con menor población: {pais_menor_poblacion} ({menor_poblacion} habitantes)\n")
 	print(f"Promedio de población: {mean(poblaciones)}")
 	print(f"Promedio de superficie: {mean(superficies)}")
-	print("Países por continente")
+	
+	print("Países por continente: ")
+	for key, value in paises_por_continente.items():
+		print(f"{key}: {value}")
+
 
 
 def opcion_valida(opcion):
