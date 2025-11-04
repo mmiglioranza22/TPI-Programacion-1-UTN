@@ -1,5 +1,6 @@
-import csv, os
+import csv, os, math
 from operator import itemgetter
+from statistics import mean
 
 def verificar_archivo_existente():
 	file_path = "dataset_base.csv"
@@ -39,7 +40,7 @@ def validar_numero(cadena):
 	return cadena.isdigit() and int(cadena).is_integer() and int(cadena) >= 0
 
 def continente_valido(continente):
-	return continente == "América" or continente == "Asia" or continente == "Europa" or continente == "África" or continente == "Oceanía"
+	return continente == "América" or continente == "Asia" or continente == "Europa" or continente == "África" or continente == "Oceanía" or continente == "Antártida"
 
 def criterio_orden_valido(criterio):
 	return criterio == "NOMBRE" or criterio == "POBLACION" or criterio == "SUPERFICIE"
@@ -58,9 +59,9 @@ def agregar_pais(lista_paises):
 	while superficie == "" or (not validar_numero(superficie)):
 		superficie = input("Opción inválida. Por favor indíque un número entero positivo: ").strip()
 
-	continente = input("Por favor ingrese el continente del país: ").strip()
+	continente = input("Por favor ingrese el continente del país (América, Asia, África, Oceanía, Europa, Antártida): ").strip()
 	while continente == "" or (not continente_valido(continente)):
-		continente = input("Opción inválida. Por favor indíque un continente (América, Asia, África, Oceanía, Europa): ").strip()
+		continente = input("Opción inválida. Por favor indíque un continente (América, Asia, África, Oceanía, Europa, Antártida): ").strip()
 
 	# verificar que el país no exista ya en el archivo
 	for nombre_pais in lista_paises:
@@ -164,17 +165,42 @@ def ordenar_paises(lista_paises, criterio):
 	descendente = False
 	if sentido == "DESCENDENTE":
 		descendente = True
-		
+
 	lista_ordenada = sorted(lista_paises, key=itemgetter(criterio), reverse=descendente)
 	mostrar_paises(lista_ordenada)
 
 
-def mostrar_estadisticas():
-	# País con mayor y menor población
-	# Promedio de población
-	# Promedio de superficie
-	# Cantidad de países por continente 
-	pass
+def mostrar_estadisticas(lista_paises):
+	mayor_poblacion = 0
+	menor_poblacion = math.inf
+	pais_mayor_poblacion = ""
+	pais_menor_poblacion = ""
+	poblaciones = []
+	superficies = []
+	paises_por_continente = {"Asia": 0, "América": 0, "África": 0, "Europa": 0, "Oceanía": 0, "Antártida": 0}
+
+	for pais in lista_paises:
+		if pais["POBLACION"] > mayor_poblacion:
+			mayor_poblacion = pais["POBLACION"]
+			pais_mayor_poblacion = pais["NOMBRE"]
+
+		if pais["POBLACION"] < menor_poblacion:
+			menor_poblacion = pais["POBLACION"]
+			pais_menor_poblacion = pais["NOMBRE"]
+
+		continente = pais["CONTINENTE"]	
+		paises_por_continente[continente] += 1
+		
+		poblaciones.append(pais["POBLACION"])
+		superficies.append(pais["SUPERFICIE"])
+	
+	print("=== Estadísticas ===")
+	print(f"País con mayor población: {pais_mayor_poblacion} ({mayor_poblacion} habitantes)\n")
+	print(f"País con menor población: {pais_menor_poblacion} ({menor_poblacion} habitantes)\n")
+	print(f"Promedio de población: {mean(poblaciones)}")
+	print(f"Promedio de superficie: {mean(superficies)}")
+	print("Países por continente")
+
 
 def opcion_valida(opcion):
 	return opcion == "0" or opcion == "1" or opcion == "2" or opcion == "3" or opcion == "4" or opcion == "5" or opcion == "6" or opcion == "7" or opcion == "8" or opcion == "9" or opcion == "10"
@@ -260,7 +286,7 @@ while True:
 			pass
 
 		case "10":
-
+			mostrar_estadisticas(lista_paises)
 			print("\n===========================================")	
 			pass
 
