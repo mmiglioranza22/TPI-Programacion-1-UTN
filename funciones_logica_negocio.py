@@ -1,6 +1,7 @@
 import csv, os, math
 from operator import itemgetter
 from statistics import mean
+from funciones_validadoras import continente_valido, validar_numero
 
 # Se verifica si hay un archivo csv
 def verificar_archivo_existente():
@@ -12,39 +13,27 @@ def verificar_archivo_existente():
 
 def cargar_paises():
 	lista = []
-	try:
-		if verificar_archivo_existente():
-			with open('dataset_base.csv', 'r', newline='') as archivo:
-				lector = csv.reader(archivo)
-				for fila in lector:
-					# Se omite la primer fila que es la que contiene el nombre de las columnas
-					if fila[0] == "nombre":
-						continue
-					else:
-						lista.append({"NOMBRE": fila[0], "POBLACION": int(fila[1]), "SUPERFICIE": int(fila[2]), "CONTINENTE": fila[3]})
-			return lista
-		else:
-			print("\nNo hay archivo csv en el directorio de la aplicación")
-			print("\nAgregue un archivo con nombre 'dataset_base.csv' con el formato 'nombre,poblacion,superficie,continente' y una linea vacía al final del mismo")
-			print("Inicializando lista de países vacía...")
-			return lista
-	except Exception as e:
-		print("Error en carga de archivo. Verifique que el formato del archivo CSV con países sea correcto")
+	if verificar_archivo_existente():
+		with open('dataset_base.csv', 'r', newline='') as archivo:
+			lector = csv.reader(archivo)
+			for fila in lector:
+				# Se omite la primer fila que es la que contiene el nombre de las columnas
+				if fila[0] == "nombre":
+					continue
+				else:
+					lista.append({"NOMBRE": fila[0], "POBLACION": int(fila[1]), "SUPERFICIE": int(fila[2]), "CONTINENTE": fila[3]})
+		return lista
+	else:
+		print("\nNo hay archivo csv en el directorio de la aplicación")
+		print("\nAgregue un archivo con nombre 'dataset_base.csv' con el formato 'nombre,poblacion,superficie,continente' y una linea vacía al final del mismo")
+		print("Inicializando lista de países vacía...")
+		return lista
 
 def guardar_cambios(archivo_paises):
 	with open("dataset_base.csv", "w") as archivo:
 		archivo.write("nombre,poblacion,superficie,continente\n")
 		for pais in archivo_paises:
 			archivo.write(f"{pais["NOMBRE"]},{pais["POBLACION"]},{pais["SUPERFICIE"]},{pais["CONTINENTE"]}\n")
-
-def validar_numero(cadena):
-	return cadena.isdigit() and int(cadena).is_integer() and int(cadena) >= 0
-
-def continente_valido(continente):
-	return continente == "América" or continente == "Asia" or continente == "Europa" or continente == "África" or continente == "Oceanía" or continente == "Antártida"
-
-def criterio_orden_valido(criterio):
-	return criterio == "NOMBRE" or criterio == "POBLACION" or criterio == "SUPERFICIE"
 
 def agregar_pais(lista_paises):
 	pais_repetido = False
@@ -140,7 +129,6 @@ def filtrar_continente(lista_paises):
 	else:
 		print("No se encontraron paises")
 
-
 def filtrar_por_rango(lista_paises, criterio):
 	# Validar los inputs
 	minimo = input("Ingrese el limite mínimo: ")
@@ -163,7 +151,6 @@ def filtrar_por_rango(lista_paises, criterio):
 	else:
 		print("No se encontraron paises")	
 
-
 def ordenar_paises(lista_paises, criterio):
 	sentido = input("Por favor ingrese el sentido del ordenamiento (ASCENDENTE, DESCENDENTE): ").strip().upper()
 	while sentido == "" or not (sentido == "ASCENDENTE" or sentido == "DESCENDENTE"):
@@ -176,7 +163,6 @@ def ordenar_paises(lista_paises, criterio):
 # sorted ordena la lista de paises en base a la key que se provee a la función itemgetter, que la busca dentro de cada diccionario de la lista
 	lista_ordenada = sorted(lista_paises, key=itemgetter(criterio), reverse=descendente)
 	mostrar_paises(lista_ordenada)
-
 
 def mostrar_estadisticas(lista_paises):
 	mayor_poblacion = 0
@@ -205,17 +191,12 @@ def mostrar_estadisticas(lista_paises):
 	print("=== Estadísticas ===")
 	print(f"País con mayor población: {pais_mayor_poblacion} ({mayor_poblacion} habitantes)\n")
 	print(f"País con menor población: {pais_menor_poblacion} ({menor_poblacion} habitantes)\n")
-	print(f"Promedio de población: {mean(poblaciones)}")
-	print(f"Promedio de superficie: {mean(superficies)}")
+	print(f"Promedio de población: {round(mean(poblaciones), 2)}") 
+	print(f"Promedio de superficie: {round(mean(superficies), 2)}")
 	
 	print("Países por continente: ")
 	for key, value in paises_por_continente.items():
 		print(f"{key}: {value}")
-
-
-
-def opcion_valida(opcion):
-	return opcion == "0" or opcion == "1" or opcion == "2" or opcion == "3" or opcion == "4" or opcion == "5" or opcion == "6" or opcion == "7" or opcion == "8" or opcion == "9" or opcion == "10"
 
 def mostrar_menu():
 	print("\n--- MENÚ DE OPCIONES ---")
@@ -231,65 +212,3 @@ def mostrar_menu():
 	print("10. Mostrar estadísticas")
 	print("0. Salir")
 	
-print("===========================================")
-print("Bienvenido a la aplicación de países.")
-print("===========================================")
-
-
-lista_paises = cargar_paises()
-
-while True: 
-	mostrar_menu()
-	opcion = input("Por favor, elija una de las opciones sugeridas: ").strip()
-	print("")
-
-	while not opcion_valida(opcion):
-		print("La opción ingresada no es válida.")
-		opcion = input("Por favor, elija una de las opciones sugeridas: ").strip()
-		print("\n===========================================\n")
-		
-	match opcion:
-		case "1":
-			agregar_pais(lista_paises)
-			guardar_cambios(lista_paises)
-			print("\n===========================================")
-			
-		case "2":
-			actualizar_pais(lista_paises)	
-			guardar_cambios(lista_paises)
-			print("\n===========================================")
-
-		case "3":
-			buscar_pais(lista_paises)
-			print("\n===========================================")
-		
-		case "4":
-			filtrar_continente(lista_paises)
-			print("\n===========================================")
-		
-		case "5":
-			filtrar_por_rango(lista_paises, "POBLACION")	
-			print("\n===========================================")
-
-		case "6":
-			filtrar_por_rango(lista_paises, "SUPERFICIE")	
-			print("\n===========================================")
-
-		case "7":
-			ordenar_paises(lista_paises, "NOMBRE")
-			print("\n===========================================")
-
-		case "8":
-			ordenar_paises(lista_paises, "POBLACION")
-			print("\n===========================================")
-
-		case "9":
-			ordenar_paises(lista_paises, "SUPERFICIE")
-			print("\n===========================================")
-
-		case "10":
-			mostrar_estadisticas(lista_paises)
-			print("\n===========================================")
-
-		case "0":
-			break
