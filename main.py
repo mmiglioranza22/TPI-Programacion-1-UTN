@@ -6,9 +6,9 @@ print("Bienvenido a la aplicación de países.")
 print("===========================================")
 
 
-lista_paises = cargar_paises()
 
 while True: 
+	lista_paises = cargar_paises()
 	mostrar_menu()
 	opcion = input("Por favor, elija una de las opciones sugeridas: ").strip()
 	print("")

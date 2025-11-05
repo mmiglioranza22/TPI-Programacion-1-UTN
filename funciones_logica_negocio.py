@@ -1,6 +1,4 @@
 import csv, os, math
-from operator import itemgetter
-from statistics import mean
 from funciones_validadoras import continente_valido, validar_numero
 
 # Se verifica si hay un archivo csv
@@ -164,6 +162,19 @@ def ordenar_paises(lista_paises, criterio):
 	lista_ordenada = sorted(lista_paises, key=itemgetter(criterio), reverse=descendente)
 	mostrar_paises(lista_ordenada)
 
+# Se desarrolla una función promedio y no se usa mean del módulo statistics por restricción del trabajo práctico.
+# Normalmente se preferiría la función mean por estar mejor probada y testeada
+def promedio(lista, criterio):
+	suma = 0
+
+	for elemento in lista:
+		suma = suma + elemento[criterio]
+	
+	promedio = suma / len(lista)
+
+	return round(promedio, 2)
+
+
 def mostrar_estadisticas(lista_paises):
 	mayor_poblacion = 0
 	menor_poblacion = math.inf
@@ -191,8 +202,8 @@ def mostrar_estadisticas(lista_paises):
 	print("=== Estadísticas ===")
 	print(f"País con mayor población: {pais_mayor_poblacion} ({mayor_poblacion} habitantes)\n")
 	print(f"País con menor población: {pais_menor_poblacion} ({menor_poblacion} habitantes)\n")
-	print(f"Promedio de población: {round(mean(poblaciones), 2)}") 
-	print(f"Promedio de superficie: {round(mean(superficies), 2)}")
+	print(f"Promedio de población: {promedio(lista_paises, "POBLACION")}") 
+	print(f"Promedio de superficie: {promedio(lista_paises, "SUPERFICIE")}")
 	
 	print("Países por continente: ")
 	for key, value in paises_por_continente.items():
