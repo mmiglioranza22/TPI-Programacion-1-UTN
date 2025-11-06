@@ -18,14 +18,16 @@ def bubble_sort_diccionarios(lista_de_diccionarios, key, sentido="ASCENDENTE"):
 			for indice in range(0, len(lista_copia) - 1):
 				# Si se ingresa en el if, asumimos que se hace un cambio
 				if lista_copia[indice][key] > lista_copia[indice + 1][key]:
+					# Se guarda la referencia del elemento y se hace el cambio (el más chico se pone primero)
 					puntero_temporal = lista_copia[indice]
 					lista_copia[indice] = lista_copia[indice + 1]
 					lista_copia[indice + 1] = puntero_temporal
 					se_hicieron_cambios = True
 		elif sentido == "DESCENDENTE":
 			for indice in range(0, len(lista_copia) - 1):
-				# Si se ingresa en el if, asumimos que se hace un cambio
+				# Si se ingresa en el if, asumimos que se hace un cambio (el más grande se pone primero)
 				if lista_copia[indice][key] < lista_copia[indice + 1][key]:
+					# Se guarda la referencia del elemento y se hace el cambio
 					puntero_temporal = lista_copia[indice + 1]
 					lista_copia[indice + 1] = lista_copia[indice]
 					lista_copia[indice] = puntero_temporal
