@@ -1,5 +1,6 @@
 import csv, os, math
 from funciones_validadoras import continente_valido, validar_numero
+from funciones_utilidades import bubble_sort_diccionarios, promedio
 
 # Se verifica si hay un archivo csv
 def verificar_archivo_existente():
@@ -154,25 +155,9 @@ def ordenar_paises(lista_paises, criterio):
 	while sentido == "" or not (sentido == "ASCENDENTE" or sentido == "DESCENDENTE"):
 		sentido = input("Opción inválida. Por favor indíque una opción válida (ASCENDENTE, DESCENDENTE): ").strip().upper()
 
-	descendente = False
-	if sentido == "DESCENDENTE":
-		descendente = True
-
-# sorted ordena la lista de paises en base a la key que se provee a la función itemgetter, que la busca dentro de cada diccionario de la lista
-	lista_ordenada = sorted(lista_paises, key=itemgetter(criterio), reverse=descendente)
+	print(f"\nOrdenando lista de países por {criterio} de formas {sentido}...\n")
+	lista_ordenada = bubble_sort_diccionarios(lista_paises, criterio, sentido)
 	mostrar_paises(lista_ordenada)
-
-# Se desarrolla una función promedio y no se usa mean del módulo statistics por restricción del trabajo práctico.
-# Normalmente se preferiría la función mean por estar mejor probada y testeada
-def promedio(lista, criterio):
-	suma = 0
-
-	for elemento in lista:
-		suma = suma + elemento[criterio]
-	
-	promedio = suma / len(lista)
-
-	return round(promedio, 2)
 
 
 def mostrar_estadisticas(lista_paises):
@@ -180,8 +165,6 @@ def mostrar_estadisticas(lista_paises):
 	menor_poblacion = math.inf
 	pais_mayor_poblacion = ""
 	pais_menor_poblacion = ""
-	poblaciones = []
-	superficies = []
 	paises_por_continente = {"Asia": 0, "América": 0, "África": 0, "Europa": 0, "Oceanía": 0, "Antártida": 0}
 
 	for pais in lista_paises:
@@ -196,8 +179,6 @@ def mostrar_estadisticas(lista_paises):
 		continente = pais["CONTINENTE"]	
 		paises_por_continente[continente] += 1
 		
-		poblaciones.append(pais["POBLACION"])
-		superficies.append(pais["SUPERFICIE"])
 	
 	print("=== Estadísticas ===")
 	print(f"País con mayor población: {pais_mayor_poblacion} ({mayor_poblacion} habitantes)\n")
