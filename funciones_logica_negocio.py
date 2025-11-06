@@ -5,6 +5,7 @@ from funciones_utilidades import bubble_sort_diccionarios, promedio
 # Se verifica si hay un archivo csv
 def verificar_archivo_existente():
 	file_path = "dataset_base.csv"
+	# os.path.isfile verifica que exista un archivo con el nombre indicado
 	if os.path.isfile(file_path):
 		return True
 	else:
@@ -80,6 +81,7 @@ def actualizar_pais(lista_paises):
 		nueva_superficie = input("Opción inválida. Por favor indíque un número entero positivo: ").strip()
 
 	encontrado = False
+	# se itera en la lista de países hasta encontrar el país, normalizando la comparación para que sea más accesible al usuario
 	for pais in lista_paises:
 		if pais["NOMBRE"].lower() == nombre.lower():
 			encontrado = True
@@ -91,6 +93,7 @@ def actualizar_pais(lista_paises):
 		print("El país no se encuentra en el archivo")
 
 def mostrar_paises(lista_paises):
+	# Se itera la lista de países imprimiendo por pantalla los valores de cada propiedad de cada país
 	for pais in lista_paises:
 		print(f"Nombre: {pais["NOMBRE"]}")
 		print(f"Población: {pais["POBLACION"]}")
@@ -98,7 +101,7 @@ def mostrar_paises(lista_paises):
 		print(f"Continente: {pais["CONTINENTE"]}")
 		print("\n")
 
-# Se busca un país por match exacto o parcial, para el cual se piden al menos 4 caracteres, que es lo mínimo para poder distinguir entre paises
+# Se busca un país por match exacto o parcial, para el cual se piden al menos 4 caracteres que es lo mínimo para poder distinguir cualquier nombre de países
 def buscar_pais(lista_paises):
 	nombre = input("Ingrese el país que desee buscar: ")
 	while nombre == "" or len(nombre) < 4:
@@ -156,6 +159,7 @@ def ordenar_paises(lista_paises, criterio):
 		sentido = input("Opción inválida. Por favor indíque una opción válida (ASCENDENTE, DESCENDENTE): ").strip().upper()
 
 	print(f"\nOrdenando lista de países por {criterio} de formas {sentido}...\n")
+	# Se ordena los países con el algoritmo bubble sort adaptado a lista de diccionarios y se muestra el resultado por la consola
 	lista_ordenada = bubble_sort_diccionarios(lista_paises, criterio, sentido)
 	mostrar_paises(lista_ordenada)
 
