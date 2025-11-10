@@ -11,7 +11,7 @@ Este proyecto consiste en el desarrollo de una aplicación en Python para gestio
 
 ## Integrantes
 - Lara Aldana (Comisión 6) – lara.aldana@tupad.utn.edu.ar
-- Manuel Miglioranza (Comisión 6) – manuel.miglioranza@tupad.utn.edu.ar
+- Manuel Miglioranza (Comisión 8) – manuel.miglioranza@tupad.utn.edu.ar
 
 ## Datos de profesores
 - Docente titular: Sebastián Bruseiario
