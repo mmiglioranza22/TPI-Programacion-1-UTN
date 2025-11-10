@@ -62,9 +62,10 @@ def agregar_pais(lista_paises):
 			break
 	
 	if not pais_repetido:
-		nuevo_pais = {"NOMBRE": nombre, "POBLACION": int(poblacion), "SUPERFICIE": int(superficie), "CONTINENTE": continente}
+		# Se guardan los países con la primer letra mayúscula para mantener consistencia en el ordenamiento
+		nuevo_pais = {"NOMBRE": nombre.capitalize(), "POBLACION": int(poblacion), "SUPERFICIE": int(superficie), "CONTINENTE": continente}
 		lista_paises.append(nuevo_pais)
-		print(f"\n'{nombre}' fue ingresado como nuevo país.")
+		print(f"\n'{nombre.capitalize()}' fue ingresado como nuevo país.")
 
 def actualizar_pais(lista_paises):
 	# Se validan los inputs
@@ -103,16 +104,21 @@ def mostrar_paises(lista_paises):
 
 # Se busca un país por match exacto o parcial, para el cual se piden al menos 4 caracteres que es lo mínimo para poder distinguir cualquier nombre de países
 def buscar_pais(lista_paises):
+	existe = False
 	nombre = input("Ingrese el país que desee buscar: ")
 	while nombre == "" or len(nombre) < 4:
 		nombre = input("Opción inválida. Ingreso al menos 4 caracteres: ").strip()	
 
 	for pais in lista_paises:
 		if nombre.lower() in pais["NOMBRE"].lower():
+			existe = True
 			print(f"Datos sobre {pais["NOMBRE"]}")
 			print(f"Población: {pais["POBLACION"]}")
 			print(f"Superficie: {pais["SUPERFICIE"]}")
 			print(f"Continente: {pais["CONTINENTE"]}")
+	
+	if not existe:
+		print(f"El país '{nombre}' no está registrado")
 
 # Se filtra con el mismo critero para la búsqueda de paises (match exacto o parcial de 4 caracteres)
 def filtrar_continente(lista_paises):
