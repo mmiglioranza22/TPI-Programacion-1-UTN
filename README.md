@@ -42,7 +42,7 @@ python main.py
 
 ## Links utiles
 
-- Videos explicativo:
+- Videos explicativo:https://youtu.be/0aQXDo9sIdg
 - Repositorio GitHub:https://github.com/mmiglioranza22/TPI-Programacion-1-UTN.git
 
 ## Ejemplo de entrada
